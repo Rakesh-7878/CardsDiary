@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cards Diary â€“ Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to Cloudinary CDN (DNS + TCP + TLS in advance) -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        /* â”€â”€ Skeleton shimmer for image cards â”€â”€ */
+        .img-skeleton {
+            width: 100%;
+            aspect-ratio: 9/16;
+            border-radius: 8px;
+            background: linear-gradient(90deg, #f0e4ea 25%, #fce8f0 50%, #f0e4ea 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .inv-card-img-container img {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .inv-card-img-container img.loaded {
+            opacity: 1;
+        }
+
+        .collection-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #fff5f9 0%, var(--pink-light) 50%, var(--pink) 100%);
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .collection-grid-section {
+            padding: 80px 0;
+            background: var(--white);
+            min-height: 40vh;
+        }
+
+        /* Compact Grid Overrides */
+        .cards-grid {
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+        }
+
+        .inv-card {
+            padding: 24px 16px;
+        }
+
+        .inv-card-title {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .inv-card-desc {
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .inv-card {
+                padding: 16px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-brand">
+            <a class="nav-brand-link" href="index.html" aria-label="Cards Diary">
+                <span class="logo-script">Cards Diary</span>
+                <span class="logo-tagline">Est. 2026</span>
+                <span class="logo-tagline">By Rakesh Thangella</span>
+            </a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#collection">Collection</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#testimonials">Stories</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <header class="collection-hero">
+        <div class="container fade-up visible">
+            <span class="section-label" id="collectionCategoryLabel">Curated Collection</span>
+            <h1 class="hero-brand-title" id="collectionTitle" style="font-size: clamp(3rem, 8vw, 6rem);">Our Designs
+            </h1>
+            <p class="section-sub" style="margin-top: 16px;">Beautiful elements tailored for your unique moment.</p>
+        </div>
+    </header>
+
+    <!-- ========== GRID ITEMS ========== -->
+    <section class="collection-grid-section">
+        <div class="container">
+            <div class="cards-grid" id="designsGrid">
+                <!-- Dynamic rendering via JS -->
+            </div>
+            <div id="noDesignsMessage" style="display: none; text-align: center; padding: 60px 20px;">
+                <div class="inv-card-icon" style="margin: 0 auto 24px;">
+                    <svg viewBox="0 0 64 64" fill="none" style="width:48px; height:48px; opacity: 0.5;">
+                        <path d="M12 12 L52 52 M52 12 L12 52" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--red);">Coming Soon
+                </h3>
+                <p style="color: #666; margin-top: 10px;">Our designers are crafting beautiful templates for this
+                    collection. Stay tuned!</p>
+                <a href="index.html#collection" class="btn-outline"
+                    style="margin-top: 24px; display: inline-block;">Back to Collections</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo-container">
+                        <img src="logo2.png" alt="Cards Diary Logo" class="footer-logo-img" />
+                    </div>
+                    <p class="footer-tagline">Where Love Becomes an Invitation</p>
+                </div>
+                <!-- Adding matching footer links -->
+                <div class="footer-links-group">
+                    <h4>Collections</h4>
+                    <ul>
+                        <li><a href="index.html#collection">Wedding</a></li>
+                        <li><a href="index.html#collection">Birthday</a></li>
+                        <li><a href="index.html#collection">Anniversary</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Studio</h4>
+                    <ul>
+                        <li><a href="index.html#why-us">Our Story</a></li>
+                        <li><a href="mailto:rakeshthangella5@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Cards Diary. All rights reserved.</p>
+                <p>Crafted with <span class="heart-icon" aria-label="love">â™¥</span> for every love story.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Parse URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+        const category = urlParams.get('category');
+        const styleId = urlParams.get('style');
+
+        const designsGrid = document.getElementById('designsGrid');
+        const noDesignsMessage = document.getElementById('noDesignsMessage');
+
+        if (title) {
+            document.getElementById('collectionTitle').textContent = decodeURIComponent(title);
+            document.title = decodeURIComponent(title) + " â€“ Cards Diary";
+        }
+        if (category) {
+            document.getElementById('collectionCategoryLabel').textContent = decodeURIComponent(category) + " Collection";
+        }
+
+        // Logic to show specific templates based on category and styleId
+        if (category === 'Wedding' && styleId === 'indian') {
+            designsGrid.innerHTML = `
+                <article class="inv-card fade-up visible">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772894422/cards_rmck2n.jpg" alt="Design Template 1" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Design Template 1</h3>
+                    <p class="inv-card-desc">Elegant traditional floral motif.</p>
+                    <a href="viewer.html?img=https%3A%2F%2Fres.cloudinary.com%2Fdmd8tzi0q%2Fimage%2Fupload%2Fv1772894422%2Fcards_rmck2n.jpg&category=Wedding&style=indian" class="inv-card-link">Customize</a>
+                </article>
+
+                <article class="inv-card fade-up visible" style="--delay:.1s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772955751/Gemini_Generated_Image_qs98g7qs98g7qs98_so2lqn.png" alt="Design Template 2" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Design Template 2</h3>
+                    <p class="inv-card-desc">Modern premium gold & cream style.</p>
+                    <a href="viewer.html?img=https%3A%2F%2Fres.cloudinary.com%2Fdmd8tzi0q%2Fimage%2Fupload%2Fv1772955751%2FGemini_Generated_Image_qs98g7qs98g7qs98_so2lqn.png&category=Wedding&style=indian" class="inv-card-link">Customize</a>
+                </article>
+            `;
+        } else if (category === 'Wedding' && styleId === 'telangana') {
+            const telanganaTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957307/Gemini_Generated_Image_5mtv2b5mtv2b5mtv_xi8vsi.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957316/Gemini_Generated_Image_dgsilxdgsilxdgsi_rzp5ww.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957316/Gemini_Generated_Image_dgsilxdgsilxdgsi_rzp5ww.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957322/Gemini_Generated_Image_f3jtvef3jtvef3jt_zuekz4.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957324/Gemini_Generated_Image_sks6z1sks6z1sks6_m6gi3u.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957339/Gemini_Generated_Image_ll7m14ll7m14ll7m_sdijr8.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957339/Gemini_Generated_Image_tf65z0tf65z0tf65_h9qp6m.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772957340/Gemini_Generated_Image_d0bemid0bemid0be_ssddtm.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959296/Gemini_Generated_Image_zcax5yzcax5yzcax_bypjki.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959313/Gemini_Generated_Image_ea5smcea5smcea5s_w4qmvd.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959320/Gemini_Generated_Image_tmt5j6tmt5j6tmt5_uparwl.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959327/Gemini_Generated_Image_g58wadg58wadg58w_clstcs.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959335/Gemini_Generated_Image_82r60x82r60x82r6_hli62k.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959360/Gemini_Generated_Image_c95nmyc95nmyc95n_bj6r10.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959360/Gemini_Generated_Image_3tu5se3tu5se3tu5_fepisp.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959367/Gemini_Generated_Image_ll7m14ll7m14ll7m_prsu9c.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959376/Gemini_Generated_Image_d0bemid0bemid0be_gzkeaq.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772959379/Gemini_Generated_Image_sks6z1sks6z1sks6_bwzwul.png'
+            ];
+
+            designsGrid.innerHTML = telanganaTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Telangana Style ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Classical Style ${index + 1}</h3>
+                    <p class="inv-card-desc">Traditional Telangana motif.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Wedding&style=telangana" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Wedding' && styleId === 'western') {
+            const westernTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987877/Gemini_Generated_Image_2c64ci2c64ci2c64_nxg5px.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987878/Gemini_Generated_Image_4rmisa4rmisa4rmi_dcclhy.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987878/Gemini_Generated_Image_edn78zedn78zedn7_bku2lf.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987886/Gemini_Generated_Image_kw0gzokw0gzokw0g_cfizrg.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987889/Gemini_Generated_Image_lxmsvglxmsvglxms_btv4lw.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987901/Gemini_Generated_Image_xewpjixewpjixewp_wstoud.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987904/Gemini_Generated_Image_h265duh265duh265_vbxzqw.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987904/Gemini_Generated_Image_5z7f1f5z7f1f5z7f_cvnbzr.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772987905/Gemini_Generated_Image_pc3vrtpc3vrtpc3v_l1kpxd.png'
+            ];
+
+            designsGrid.innerHTML = westernTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Western Style ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Modern Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Elegant contemporary Western style.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Wedding&style=western" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Birthday' && styleId === 'kids') {
+            const birthdayKidsTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063183/Gemini_Generated_Image_reak3reak3reak3r_lhjdem.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063183/Gemini_Generated_Image_h8p0seh8p0seh8p0_igyv4x.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063185/Gemini_Generated_Image_lod1yslod1yslod1_cj07uw.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063190/Gemini_Generated_Image_2oomf22oomf22oom_mpwu19.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063204/Gemini_Generated_Image_aq1y1jaq1y1jaq1y_fjqbaz.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063204/Gemini_Generated_Image_m0ydb7m0ydb7m0yd_ew4xyv.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063209/Gemini_Generated_Image_p9nqgfp9nqgfp9nq_vqjf2t.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063211/Gemini_Generated_Image_vgr7mbvgr7mbvgr7_celktc.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063221/Gemini_Generated_Image_quo39xquo39xquo3_r2rkge.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063223/Gemini_Generated_Image_qlx5gpqlx5gpqlx5_qvqth0.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773063232/Gemini_Generated_Image_p0yv64p0yv64p0yv_u7pii6.png'
+            ];
+
+            designsGrid.innerHTML = birthdayKidsTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Birthday Kids Style ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Kids Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Playful birthday invitation.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Birthday&style=kids" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Birthday' && styleId === 'teens') {
+            const birthdayTeensTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075016/Gemini_Generated_Image_gkoynsgkoynsgkoy_hz7hkc.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075017/Gemini_Generated_Image_b9z8e4b9z8e4b9z8_aldxmw.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075026/Gemini_Generated_Image_h053fth053fth053_auuitt.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075028/Gemini_Generated_Image_9j2zri9j2zri9j2z_ghnpnn.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075032/Gemini_Generated_Image_fvp9j3fvp9j3fvp9_kwqf2c.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075035/Gemini_Generated_Image_dbg4e9dbg4e9dbg4_egrx0c.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773075037/Gemini_Generated_Image_hyaa5fhyaa5fhyaa_segcgv.png'
+            ];
+
+            designsGrid.innerHTML = birthdayTeensTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Birthday Teens Style ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Teen Style ${index + 1}</h3>
+                    <p class="inv-card-desc">Trendy birthday design for young adults.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Birthday&style=teens" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Birthday' && styleId === 'milestone') {
+            const milestoneTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157222/Gemini_Generated_Image_h9a1bgh9a1bgh9a1_eykqiu.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157204/Gemini_Generated_Image_660vqw660vqw660v_f7ssra.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157247/Gemini_Generated_Image_yagoo6yagoo6yago_s1ui03.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157263/Gemini_Generated_Image_xcdy0uxcdy0uxcdy_owbscm.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157265/Gemini_Generated_Image_rq7q83rq7q83rq7q_k9avla.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157266/Gemini_Generated_Image_cxs51wcxs51wcxs5_opegkt.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157265/Gemini_Generated_Image_uy7rshuy7rshuy7r_xigqaz.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157271/Gemini_Generated_Image_yvm3o8yvm3o8yvm3_xjo18f.png'
+            ];
+
+            designsGrid.innerHTML = milestoneTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Milestone Event ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Milestone Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Premium celebration invitation.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Birthday&style=milestone" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Anniversary' && styleId === 'silver') {
+            const silverAnniversaryTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773157271/Gemini_Generated_Image_yvm3o8yvm3o8yvm3_xjo18f.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158415/Gemini_Generated_Image_hkwh6whkwh6whkwh_qgomf4.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158425/Gemini_Generated_Image_1q03ot1q03ot1q03_pjfqrd.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158429/Gemini_Generated_Image_6s8txs6s8txs6s8t_qjxxxh.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158428/Gemini_Generated_Image_hl979yhl979yhl97_p5wlju.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158430/Gemini_Generated_Image_u3nvr1u3nvr1u3nv_quepub.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773158431/Gemini_Generated_Image_vuxubfvuxubfvuxu_xzdk6f.png'
+            ];
+
+            designsGrid.innerHTML = silverAnniversaryTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Silver Jubilee ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Silver Jubilee Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Elegant 25th anniversary celebration.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Anniversary&style=silver" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Anniversary' && styleId === 'golden') {
+            const goldenAnniversaryTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159512/Gemini_Generated_Image_youm5myoum5myoum_fzwh3q.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159512/Gemini_Generated_Image_ms3iekms3iekms3i_orkokk.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159513/Gemini_Generated_Image_b88hgcb88hgcb88h_onvgy0.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159525/Gemini_Generated_Image_cffn3ycffn3ycffn_tjrrjp.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159528/Gemini_Generated_Image_cewlgrcewlgrcewl_ien9mn.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159537/Gemini_Generated_Image_47i8dq47i8dq47i8_j6wdly.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159547/Gemini_Generated_Image_pfzerepfzerepfze_dbrzwc.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159549/Gemini_Generated_Image_zdxkk3zdxkk3zdxk_syriaz.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773159549/Gemini_Generated_Image_8uzb3p8uzb3p8uzb_vwgatu.png'
+            ];
+
+            designsGrid.innerHTML = goldenAnniversaryTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Golden Jubilee ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Golden Jubilee Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Grand 50th anniversary celebration.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Anniversary&style=golden" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'Anniversary' && styleId === 'romantic') {
+            const romanticGatewayTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160735/Gemini_Generated_Image_nvgbd6nvgbd6nvgb_fjs2ao.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160756/Gemini_Generated_Image_bjfxzsbjfxzsbjfx_hcz5nh.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160782/Gemini_Generated_Image_k1b78uk1b78uk1b7_bth7ck.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160789/Gemini_Generated_Image_jlr9c2jlr9c2jlr9_cpv4xw.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160801/Gemini_Generated_Image_97o7xh97o7xh97o7_fgnt5o.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773160802/Gemini_Generated_Image_6tjv546tjv546tjv_fgl64a.png'
+            ];
+
+            designsGrid.innerHTML = romanticGatewayTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Romantic Getaway ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Romantic Getaway ${index + 1}</h3>
+                    <p class="inv-card-desc">Lovely escape for your anniversary.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=Anniversary&style=romantic" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'BabyShower' && styleId === 'woodland') {
+            const woodlandTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243438/Gemini_Generated_Image_xxjquoxxjquoxxjq_myw3zn.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243400/Gemini_Generated_Image_m18bm5m18bm5m18b_etmzfz.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243425/Gemini_Generated_Image_t29rzt29rzt29rzt_bpwdyi.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243416/Gemini_Generated_Image_9q5tlv9q5tlv9q5t_l1ngco.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243512/Gemini_Generated_Image_xrwa6qxrwa6qxrwa_as4ieo.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243521/Gemini_Generated_Image_3e408v3e408v3e40_yveggu.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243531/Gemini_Generated_Image_m09grbm09grbm09g_bvspvq.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243543/Gemini_Generated_Image_fwmgtbfwmgtbfwmg_blwkct.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773243544/Gemini_Generated_Image_oof4c8oof4c8oof4_clsdsw.png'
+            ];
+
+            designsGrid.innerHTML = woodlandTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Woodland Creatures ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Woodland Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Enchanting woodland baby shower invite.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=BabyShower&style=woodland" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else if (category === 'BabyShower' && styleId === 'pastel') {
+            const pastelTemplates = [
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245588/Gemini_Generated_Image_p1i7qsp1i7qsp1i7_wwpl5g.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245589/Gemini_Generated_Image_1c8i2g1c8i2g1c8i_tkgc4e.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245604/Gemini_Generated_Image_9mwemm9mwemm9mwe_a7etx1.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245604/Gemini_Generated_Image_92d2lh92d2lh92d2_ph6bty.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245610/Gemini_Generated_Image_z0sxk7z0sxk7z0sx_ut8fcp.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245612/Gemini_Generated_Image_2dx1u2dx1u2dx1u2_mvtnz6.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245624/Gemini_Generated_Image_41yvpl41yvpl41yv_faih7y.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245625/Gemini_Generated_Image_6digu56digu56dig_mzweqi.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245626/Gemini_Generated_Image_gihldkgihldkgihl_td2lzu.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245627/Gemini_Generated_Image_kw10egkw10egkw10_knfuqv.png',
+                'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1773245631/Gemini_Generated_Image_71byl171byl171by_jcoxck.png'
+            ];
+
+            designsGrid.innerHTML = pastelTemplates.map((url, index) => `
+                <article class="inv-card fade-up visible" style="--delay:${index * 0.05}s">
+                    <div class="inv-card-img-container" style="width: 100%; aspect-ratio: 9/16; background: #fdf5f6; border-radius: 8px; margin-bottom: 20px; overflow: hidden; border: 1px solid rgba(139, 0, 0, 0.1);">
+                        <img src="${url}" alt="Soft Pastels ${index + 1}" style="width: 100%; height: 100%; object-fit: cover;" />
+                    </div>
+                    <h3 class="inv-card-title">Pastel Design ${index + 1}</h3>
+                    <p class="inv-card-desc">Soft & sweet baby shower invitation.</p>
+                    <a href="viewer.html?img=${encodeURIComponent(url)}&category=BabyShower&style=pastel" class="inv-card-link">Customize</a>
+                </article>
+            `).join('');
+        } else {
+            designsGrid.style.display = 'none';
+            noDesignsMessage.style.display = 'block';
+        }
+
+        // Mobile Nav Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+            });
+        }
+
+        // â”€â”€ Image lazy-load + fade-in â”€â”€
+        // Apply loading="lazy" to all template images and fade them in once loaded
+        document.querySelectorAll('.inv-card-img-container img').forEach(img => {
+            img.setAttribute('loading', 'lazy');
+            if (img.complete && img.naturalWidth > 0) {
+                img.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => img.classList.add('loaded'));
+                img.addEventListener('error', () => {
+                    // On error show a friendly fallback background
+                    img.style.display = 'none';
+                    img.parentElement.style.background = '#fde8f0';
+                });
+            }
+        });
+        // Register Service Worker for offline caching
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => { });
+        }
+    </script>
+</body>
+
+</html>

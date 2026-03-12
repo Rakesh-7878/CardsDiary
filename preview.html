@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cards Diary – Indian Wedding Card Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            padding: 24px 40px;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(139, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-header-title {
+            font-family: var(--font-poppins);
+            color: var(--red);
+            font-size: 1.2rem;
+        }
+
+        .preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Card Container structure */
+        .card-viewer {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            height: 600px;
+            perspective: 1500px;
+            margin-bottom: 40px;
+        }
+
+        /* Each Card Page */
+        .card-page {
+            position: absolute;
+            inset: 0;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 16px 48px rgba(139, 0, 0, 0.15);
+            border: 2px solid rgba(139, 0, 0, 0.2);
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            /* Floral watermark background */
+            background-image: radial-gradient(circle at center, rgba(248, 200, 220, 0.2) 0%, transparent 60%);
+
+            backface-visibility: hidden;
+            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1), opacity 0.8s;
+            opacity: 0;
+            transform: rotateY(90deg);
+            z-index: 1;
+        }
+
+        .card-page.active {
+            opacity: 1;
+            transform: rotateY(0deg);
+            z-index: 5;
+        }
+
+        .card-page.prev {
+            opacity: 0;
+            transform: rotateY(-90deg);
+            z-index: 1;
+        }
+
+        /* Indian Design Elements */
+        .page-border {
+            position: absolute;
+            inset: 12px;
+            border: 1px dashed var(--red);
+            border-radius: 8px;
+            pointer-events: none;
+        }
+
+        .indian-motif {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            color: var(--red);
+        }
+
+        .card-page h2 {
+            font-family: var(--font-script);
+            font-size: 3.5rem;
+            color: var(--red);
+            margin: 20px 0;
+            line-height: 1;
+        }
+
+        .card-page h3 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        .card-page p {
+            font-family: var(--font-serif);
+            font-size: 1rem;
+            color: var(--red);
+            line-height: 1.8;
+            opacity: 0.85;
+        }
+
+        .ampersand {
+            font-family: var(--font-script);
+            font-size: 2.5rem;
+            color: var(--pink);
+            margin: -10px 0;
+        }
+
+        /* Controls */
+        .card-controls {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            max-width: 600px;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .nav-arrow {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 1.5px solid var(--red);
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: var(--transition);
+            box-shadow: 0 4px 16px rgba(139, 0, 0, 0.1);
+        }
+
+        .nav-arrow:hover:not(:disabled) {
+            background: var(--red);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .nav-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: rgba(139, 0, 0, 0.2);
+            color: rgba(139, 0, 0, 0.2);
+        }
+
+        .action-bar {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-download {
+            background: var(--red);
+            color: var(--white);
+            font-family: var(--font-poppins);
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 14px 32px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+            box-shadow: 0 8px 24px rgba(139, 0, 0, 0.2);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(139, 0, 0, 0.3);
+        }
+
+        .page-indicator {
+            font-family: var(--font-poppins);
+            font-size: 0.85rem;
+            color: var(--red);
+            opacity: 0.6;
+            margin-top: 16px;
+            letter-spacing: 0.2em;
+        }
+
+        @media (max-width: 700px) {
+            .card-viewer {
+                max-width: 340px;
+                height: 520px;
+            }
+
+            .card-controls {
+                top: auto;
+                bottom: -80px;
+                max-width: 200px;
+            }
+
+            .action-bar {
+                margin-top: 60px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="preview-header">
+        <a href="javascript:history.back()" class="btn-outline" style="padding: 10px 20px; font-size: 0.65rem;">&larr;
+            Back</a>
+        <div class="preview-header-title script" style="font-size: 2rem; margin: 0;">Cards Diary</div>
+    </header>
+
+    <main class="preview-container">
+        <div class="card-viewer" id="cardViewer">
+
+            <!-- Page 1: Cover -->
+            <div class="card-page active" data-index="0">
+                <div class="page-border"></div>
+                <svg class="indian-motif" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 10 C60 30 80 40 90 50 C80 60 60 70 50 90 C40 70 20 60 10 50 C20 40 40 30 50 10 Z"
+                        stroke="currentColor" stroke-width="2" fill="var(--pink-light)" />
+                    <circle cx="50" cy="50" r="15" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2" />
+                    <circle cx="50" cy="50" r="5" fill="currentColor" />
+                </svg>
+                <h3>You are Invited</h3>
+                <p>To celebrate the beautiful union of</p>
+                <h2>Ananya</h2>
+                <div class="ampersand">&</div>
+                <h2>Rahul</h2>
+                <p style="margin-top: 30px; font-weight: 500;">We seek your blessings as they embark on this beautiful
+                    journey together.</p>
+            </div>
+
+            <!-- Page 2: Haldi/Mehendi -->
+            <div class="card-page" data-index="1">
+                <div class="page-border"></div>
+                <!-- Floral Motif -->
+                <svg class="indian-motif" style="width: 60px; height: 60px;" viewBox="0 0 64 64" fill="none">
+                    <path d="M32 10 Q40 20 50 32 Q40 44 32 54 Q24 44 14 32 Q24 20 32 10 Z" stroke="currentColor"
+                        stroke-width="1.5" fill="var(--pink-light)" />
+                    <path d="M32 32 L40 24 M32 32 L24 40 M32 32 L40 40 M32 32 L24 24" stroke="currentColor"
+                        stroke-width="1.5" />
+                </svg>
+                <h3 style="color: var(--pink); font-family: var(--font-poppins); font-size: 0.9rem;">The Festivities
+                </h3>
+
+                <div style="margin: 24px 0;">
+                    <h2 style="font-size: 2.2rem; margin: 0;">Haldi Ceremony</h2>
+                    <p style="margin-top: 8px;"><strong>Friday, 25th September 2026</strong></p>
+                    <p>10:00 AM onwards</p>
+                    <p style="font-size: 0.85rem; margin-top: 4px;">At The Grand Courtyard, Taj Palace</p>
+                </div>
+
+                <div style="width: 40px; height: 1px; background: var(--pink); margin: 0 auto;"></div>
+
+                <div style="margin: 24px 0;">
+                    <h2 style="font-size: 2.2rem; margin: 0;">Mehendi & Sangeet</h2>
+                    <p style="margin-top: 8px;"><strong>Friday, 25th September 2026</strong></p>
+                    <p>6:00 PM onwards</p>
+                    <p style="font-size: 0.85rem; margin-top: 4px;">The Royal Ballroom, Taj Palace</p>
+                </div>
+            </div>
+
+            <!-- Page 3: Wedding -->
+            <div class="card-page" data-index="2">
+                <div class="page-border"></div>
+                <svg class="indian-motif" style="width: 60px; height: 60px;" viewBox="0 0 64 64" fill="none">
+                    <circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="1.5" />
+                    <path d="M32 8 V20 M32 44 V56 M8 32 H20 M44 32 H56" stroke="currentColor" stroke-width="1.5" />
+                    <circle cx="32" cy="32" r="10" fill="var(--pink-light)" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+                <h3 style="color: var(--pink); font-family: var(--font-poppins); font-size: 0.9rem;">The Wedding</h3>
+
+                <h2 style="font-size: 2.8rem; margin: 20px 0;">Muhurtham</h2>
+                <p><strong>Saturday, 26th September 2026</strong></p>
+                <p>11:45 AM</p>
+
+                <div style="margin: 30px 0;">
+                    <p
+                        style="text-transform: uppercase; font-family: var(--font-poppins); font-size: 0.75rem; letter-spacing: 0.1em; color: var(--pink);">
+                        Venue</p>
+                    <p><strong>Taj Palace, New Delhi</strong></p>
+                    <p style="font-size: 0.85rem;">Sardar Patel Marg, Diplomatic Enclave</p>
+                </div>
+
+                <p style="font-style: italic; margin-top: 20px;">Followed by Lunch</p>
+            </div>
+
+            <!-- Controls overlay -->
+            <div class="card-controls">
+                <button class="nav-arrow" id="prevBtn" disabled aria-label="Previous Page">&#8592;</button>
+                <button class="nav-arrow" id="nextBtn" aria-label="Next Page">&#8594;</button>
+            </div>
+
+        </div>
+
+        <div class="page-indicator" id="pageIndicator">Page 1 of 3</div>
+
+        <div class="action-bar" style="margin-top: 30px;">
+            <button class="btn-download" id="downloadBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download PDF
+            </button>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pages = document.querySelectorAll('.card-page');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageIndicator = document.getElementById('pageIndicator');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const totalPages = pages.length;
+            let currentPage = 0;
+
+            function updateCard() {
+                pages.forEach((page, index) => {
+                    page.classList.remove('active', 'prev');
+                    if (index === currentPage) {
+                        page.classList.add('active');
+                    } else if (index < currentPage) {
+                        page.classList.add('prev');
+                    }
+                });
+
+                prevBtn.disabled = currentPage === 0;
+                nextBtn.disabled = currentPage === totalPages - 1;
+                pageIndicator.innerHTML = `Page ${currentPage + 1} of ${totalPages}`;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 0) {
+                    currentPage--;
+                    updateCard();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < totalPages - 1) {
+                    currentPage++;
+                    updateCard();
+                }
+            });
+
+            downloadBtn.addEventListener('click', () => {
+                const originalText = downloadBtn.innerHTML;
+                downloadBtn.innerHTML = "Downloading...";
+                setTimeout(() => {
+                    downloadBtn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Downloaded!`;
+                    setTimeout(() => {
+                        downloadBtn.innerHTML = originalText;
+                    }, 3000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+/*
+  # CardsDiary – Cloudflare Pages / Netlify caching headers
+  # These headers enable aggressive browser + edge caching for all static assets.
+  # Deploy to Cloudflare Pages or Netlify and these kick in automatically.
+
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate

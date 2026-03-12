@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cards Diary - Customizer</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to Cloudinary CDN (DNS + TCP + TLS in advance) -->
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin />
+    <!-- Preconnect to Fabric.js CDN -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cinzel:wght@400..900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Dancing+Script:wght@400..700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Gidugu&family=Great+Vibes&family=Gurajada&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400..700;1,400..700&family=Mallanna&family=Mandali&family=Montserrat:wght@300;400;500&family=NATS:wght@400;700&family=Noto+Sans+Telugu:wght@400;700&family=Noto+Serif+Telugu:wght@400;600;700&family=Parisienne&family=Peddana&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@600;700&family=Prata&family=Quicksand:wght@300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Ramabhadra&family=Ravi+Prakash&family=Sacramento&family=Suranna&family=Tangerine:wght@400;700&family=Tenali+Ramakrishna&family=Timmana&family=Fredoka:wght@400;700&family=Baloo+2:wght@400;700&family=Luckiest+Guy&family=Chewy&family=Bubblegum+Sans&family=Bangers&family=Lilita+One&family=Titan+One&family=Concert+One&family=Sniglet:wght@400;800&family=Coiny&family=Modak&family=Gochi+Hand&family=Comic+Neue:wght@400;700&family=Schoolbell&family=Patrick+Hand&family=Short+Stack&family=Knewave&family=Boogaloo&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- Fabric.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <style>
+        /* Touch action pan-y allows vertical scrolling but stops browser intercepting horizontal canvas gestures */
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            touch-action: pan-y;
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 768px) {
+            .preview-header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+
+        .preview-header {
+            padding: 24px 40px;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(139, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-family: var(--font-script);
+            font-size: 2.2rem;
+            margin: 0;
+            color: var(--red);
+        }
+
+        .editor-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @media (min-width: 992px) {
+            .editor-layout {
+                flex-direction: row;
+                align-items: flex-start;
+                padding: 50px 40px;
+            }
+        }
+
+        /* HTML Canvas Section */
+        .canvas-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(139, 0, 0, 0.08);
+            border: 2px solid rgba(139, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            aspect-ratio: 9/16;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            background: #fff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        /* Make internal canvas elements scale fluidly */
+        .canvas-container {
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 auto;
+        }
+
+        .upper-canvas,
+        .lower-canvas {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain;
+        }
+
+        /* Sidebar Controls */
+        .controls-section {
+            flex: 1;
+            background: #fff;
+            padding: 36px;
+            border-radius: 16px;
+            box-shadow: 0 16px 48px rgba(139, 0, 0, 0.08);
+            border: 2px solid rgba(139, 0, 0, 0.05);
+        }
+
+        .controls-section h3 {
+            color: var(--red);
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            font-family: var(--font-poppins);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: var(--font-poppins);
+        }
+
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #eaeaea;
+            border-radius: 8px;
+            font-family: 'Noto Serif Telugu', serif;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #fafafa;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--pink);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 200, 220, 0.3);
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #eaeaea;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: 0.3s;
+            background: #fafafa;
+            color: #333;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 16px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* Styling sliders and pickers */
+        .style-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed #e0e0e0;
+        }
+
+        .style-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            width: 100%;
+        }
+
+        /* Mobile specific form adjustments */
+        @media (max-width: 600px) {
+            .preview-header {
+                padding: 16px 20px;
+            }
+
+            .header-title {
+                font-size: 1.8rem;
+            }
+
+            .customize-header {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                justify-content: flex-start !important;
+                gap: 12px;
+                margin-bottom: 20px !important;
+            }
+
+            .lang-toggle-container {
+                width: 100%;
+                justify-content: flex-start;
+                padding-bottom: 8px;
+                border-bottom: 1px dashed #e0e0e0;
+            }
+
+            .editor-layout {
+                padding: 20px 10px;
+                gap: 20px;
+            }
+
+            .canvas-section {
+                padding: 15px;
+            }
+
+            .controls-section {
+                padding: 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0px;
+            }
+
+            .style-group {
+                gap: 12px;
+            }
+
+            .typography-grid {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
+
+            .format-options-container {
+                width: 100% !important;
+                justify-content: flex-start;
+            }
+
+            .gradient-options {
+                max-width: 100% !important;
+            }
+
+            .btn-action {
+                min-width: 100%;
+            }
+        }
+
+        .typography-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .format-options-container {
+            display: flex;
+            gap: 8px;
+            background: #fafafa;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid #eaeaea;
+            width: max-content;
+            flex-wrap: wrap;
+        }
+
+        .style-group input[type="color"] {
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            padding: 0;
+            background: transparent;
+        }
+
+        .style-group input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .style-group input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .style-group input[type="range"] {
+            cursor: pointer;
+            accent-color: var(--red);
+        }
+
+        /* Actions */
+        .editor-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 36px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-poppins);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: white;
+            box-shadow: 0 8px 24px rgba(139, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(139, 0, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--red);
+            color: var(--red);
+        }
+
+        .btn-outline:hover {
+            background: var(--pink-light);
+            color: var(--red);
+        }
+
+        /* Typography Formatting Buttons */
+        .format-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #444;
+            font-family: var(--font-poppins);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .format-btn:hover {
+            background: var(--pink-light);
+            border-color: var(--pink);
+            color: var(--red);
+        }
+
+        .format-btn.active {
+            background: var(--pink);
+            border-color: var(--pink);
+            color: #fff;
+        }
+
+        /* Toggle Switch */
+        .switch input:checked+.slider {
+            background-color: var(--pink);
+        }
+
+        .switch input:focus+.slider {
+            box-shadow: 0 0 1px var(--pink);
+        }
+
+        .switch input:checked+.slider>span {
+            transform: translateX(20px);
+        }
+
+        /* Palette Redesign */
+        .color-picker-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .color-picker-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            position: relative;
+            background: conic-gradient(from 0deg, red, yellow, lime, aqua, blue, magenta, red);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .color-picker-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-picker-btn::after {
+            content: '+';
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .palette-label {
+            font-size: 0.65rem;
+            color: #777;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="preview-header">
+        <a href="javascript:history.back()" class="btn-outline"
+            style="padding: 10px 20px; font-size: 0.8rem; text-decoration:none; border-width: 1.5px; border-radius: 6px;">&larr;
+            Back to Collection</a>
+        <div class="header-title">Cards Diary</div>
+    </header>
+
+    <main class="editor-layout">
+        <!-- Canvas Section -->
+        <div class="canvas-section">
+            <div class="canvas-wrapper">
+                <!-- Loading overlay -->
+                <div id="canvasLoadingOverlay" style="
+                    position: absolute; inset: 0; z-index: 10;
+                    background: rgba(253, 232, 240, 0.92);
+                    display: flex; flex-direction: column;
+                    align-items: center; justify-content: center;
+                    border-radius: 4px;
+                    transition: opacity 0.4s ease;
+                ">
+                    <div style="
+                        width: 48px; height: 48px;
+                        border: 3px solid rgba(139,0,0,0.15);
+                        border-top-color: #8B0000;
+                        border-radius: 50%;
+                        animation: spinLoad 0.8s linear infinite;
+                    "></div>
+                    <p
+                        style="margin-top: 16px; font-family: 'Poppins', sans-serif; font-size: 0.8rem; color: #8B0000; font-weight: 600; letter-spacing: 0.1em;">
+                        Loading Templateâ€¦</p>
+                </div>
+                <style>
+                    @keyframes spinLoad {
+                        to {
+                            transform: rotate(360deg);
+                        }
+                    }
+                </style>
+                <canvas id="editorCanvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Sidebar Section -->
+        <!-- Hidden div to preload fonts -->
+        <div id="fontPreloader"
+            style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; pointer-events: none;"></div>
+
+        <div class="controls-section">
+            <div class="customize-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="margin: 0;">Customize Details</h3>
+                <div class="lang-toggle-container"
+                    style="display: flex; align-items: center; gap: 8px; font-family: var(--font-poppins); font-size: 0.85rem; font-weight: 600;">
+                    <span id="langTeLabel" style="color: var(--red);">Telugu</span>
+                    <label class="switch" style="position: relative; display: inline-block; width: 44px; height: 24px;">
+                        <input type="checkbox" id="langToggle" style="opacity: 0; width: 0; height: 0;">
+                        <span class="slider round"
+                            style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 24px;">
+                            <span
+                                style="position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;"></span>
+                        </span>
+                    </label>
+                    <span id="langEnLabel" style="color: #666;">English</span>
+                </div>
+            </div>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 24px; font-family: var(--font-poppins);">
+                âœ¨ <strong>Tip:</strong> You can click on any text directly on the card to move or resize it!
+            </p>
+
+            <div id="dynamicFormContainer">
+                <!-- Wedding Fields (Default) -->
+                <div id="weddingFields">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Bride Name</label>
+                            <input type="text" id="brideInput" />
+                        </div>
+                        <div class="form-group">
+                            <label>Groom Name</label>
+                            <input type="text" id="groomInput" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Birthday Fields -->
+                <div id="birthdayFields" style="display: none;">
+                    <div class="form-group">
+                        <label>Heading</label>
+                        <input type="text" id="headerInput" />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" id="nameInput" />
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="text" id="ageInput" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label id="dateLabel">Wedding Date</label>
+                        <input type="text" id="dateInput" />
+                    </div>
+                    <div class="form-group">
+                        <label>Time</label>
+                        <input type="text" id="timeInput" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Venue Details</label>
+                    <input type="text" id="venueInput" />
+                </div>
+
+                <div id="birthdayExtraFields" style="display: none;">
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="cityInput" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Invitation Message</label>
+                    <textarea id="messageInput" rows="4"></textarea>
+                </div>
+
+                <div id="birthdayFooterField" style="display: none;">
+                    <div class="form-group">
+                        <label>Footer</label>
+                        <input type="text" id="footerInput" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="style-controls">
+                <div class="style-group">
+                    <label
+                        style="font-size: 0.9rem; font-weight: 600; color: #444; font-family: var(--font-poppins);">Colors
+                        & Gradients</label>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%;">
+                        <div class="color-picker-wrapper">
+                            <div class="color-picker-btn" id="paletteBtn" title="Choose Custom Color"></div>
+                            <input type="color" id="colorInput" value="#8B0000" style="display: none;" />
+                            <span class="palette-label">Custom</span>
+                        </div>
+
+                        <div style="width: 1px; height: 32px; background: #e0e0e0; margin: 0 4px;"></div>
+
+                        <!-- Gradients -->
+                        <div class="gradient-options"
+                            style="display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; flex-wrap: nowrap; scrollbar-width: none; max-width: calc(100vw - 140px);">
+                            <button type="button" class="grad-btn" data-grad="gold" title="Gold"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #C59348 0%, #FDF5E6 50%, #C59348 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="rosegold" title="Rose Gold"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #B76E79 0%, #E0BFB8 50%, #B76E79 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="copper" title="Copper"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #B87333 0%, #E8B48D 50%, #B87333 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="ruby" title="Ruby"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #9b111e 0%, #df6d77 50%, #9b111e 100%);"></button>
+
+                            <button type="button" class="grad-btn" data-grad="classic_silver" title="Classic Silver"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #757F9A 0%, #D7DDE8 50%, #757F9A 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="platinum" title="Platinum"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #E5E4E2 0%, #FFFFFF 50%, #E5E4E2 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="chrome" title="Chrome"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #A8B1B8 0%, #F5F7FA 30%, #C1C8CE 70%, #A8B1B8 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="pearl" title="Pearl Silver"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #CACFE3 0%, #F3F5FA 50%, #CACFE3 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="dark_steel" title="Dark Steel"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #4B515D 0%, #8E9299 50%, #4B515D 100%);"></button>
+                            <button type="button" class="grad-btn" data-grad="sterling" title="Sterling Silver"
+                                style="flex-shrink:0; width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; background: linear-gradient(135deg, #B0B5B9 0%, #DFE2E5 50%, #B0B5B9 100%);"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="style-group">
+                    <label
+                        style="font-size: 0.9rem; font-weight: 600; color: #444; font-family: var(--font-poppins);">Typography
+                        Adjustments</label>
+                    <div class="typography-grid">
+                        <div>
+                            <span style="font-size: 0.75rem; color: #666; display:block; margin-bottom:4px;">Size</span>
+                            <input type="range" id="sizeSlider" min="0.5" max="2.0" step="0.05" value="1"
+                                style="width: 100%;" />
+                        </div>
+                        <div>
+                            <span
+                                style="font-size: 0.75rem; color: #666; display:block; margin-bottom:4px;">Spacing</span>
+                            <input type="range" id="spacingSlider" min="-50" max="600" step="10" value="0"
+                                style="width: 100%;" />
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: #666; display:block; margin-bottom:4px;">Line
+                                Height</span>
+                            <input type="range" id="lineHeightSlider" min="0.8" max="2.5" step="0.1" value="1.6"
+                                style="width: 100%;" />
+                        </div>
+                        <div>
+                            <span style="font-size: 0.75rem; color: #666; display:block; margin-bottom:4px;">Format
+                                Options</span>
+                            <div class="format-options-container">
+                                <button type="button" id="alignLeftBtn" class="format-btn" title="Align Left">L</button>
+                                <button type="button" id="alignCenterBtn" class="format-btn active"
+                                    title="Align Center">C</button>
+                                <button type="button" id="alignRightBtn" class="format-btn"
+                                    title="Align Right">R</button>
+                                <div style="width: 1px; background: #ddd; margin: 0 2px;"></div>
+                                <button type="button" id="boldBtn" class="format-btn" title="Bold">B</button>
+                                <button type="button" id="italicBtn" class="format-btn" title="Italic"
+                                    style="font-style: italic;">I</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="teluguFontSelectorGroup" style="margin-top: 24px;">
+                <label>Telugu Font Style</label>
+                <select id="teluguFontSelect">
+                    <option value="Noto Serif Telugu">Noto Serif Telugu (Default)</option>
+                    <option value="Noto Sans Telugu">Noto Sans Telugu</option>
+                    <option value="Noto Sans Telugu Bold">Noto Sans Telugu Bold</option>
+                    <option value="Mallanna">Mallanna</option>
+                    <option value="Mandali">Mandali</option>
+                    <option value="Tenali Ramakrishna">Tenali Ramakrishna</option>
+                    <option value="Timmana">Timmana</option>
+                    <option value="Ramabhadra">Ramabhadra</option>
+                    <option value="Suranna">Suranna</option>
+                    <option value="Gidugu">Gidugu</option>
+                    <option value="Gurajada">Gurajada</option>
+                    <option value="Peddana">Peddana</option>
+                    <option value="Ravi Prakash">Ravi Prakash</option>
+                    <option value="Lakki Reddy">Lakki Reddy</option>
+                    <option value="NATS">NATS</option>
+                    <option value="NATS Bold">NATS Bold</option>
+                    <option value="Pothana2000">Pothana2000</option>
+                    <option value="Mallika Telugu">Mallika Telugu</option>
+                    <option value="Vemana2000">Vemana2000</option>
+                    <option value="Gautami">Gautami</option>
+                    <option value="Gautami Bold">Gautami Bold</option>
+                    <option value="Vani">Vani</option>
+                    <option value="Vani Bold">Vani Bold</option>
+                    <option value="Akshar Unicode">Akshar Unicode</option>
+                    <option value="Akshar Unicode Bold">Akshar Unicode Bold</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="birthdayFontSelectorGroup" style="display: none; margin-top: 24px;">
+                <label>Birthday Fonts</label>
+                <select id="birthdayFontSelect">
+                    <option value="Fredoka">Fredoka</option>
+                    <option value="Baloo 2">Baloo 2</option>
+                    <option value="Luckiest Guy">Luckiest Guy</option>
+                    <option value="Chewy">Chewy</option>
+                    <option value="Bubblegum Sans">Bubblegum Sans</option>
+                    <option value="Bangers">Bangers</option>
+                    <option value="Lilita One">Lilita One</option>
+                    <option value="Titan One">Titan One</option>
+                    <option value="Concert One">Concert One</option>
+                    <option value="Sniglet">Sniglet</option>
+                    <option value="Coiny">Coiny</option>
+                    <option value="Modak">Modak</option>
+                    <option value="Gochi Hand">Gochi Hand</option>
+                    <option value="Comic Neue">Comic Neue Bold</option>
+                    <option value="Schoolbell">Schoolbell</option>
+                    <option value="Patrick Hand">Patrick Hand</option>
+                    <option value="Short Stack">Short Stack</option>
+                    <option value="Knewave">Knewave</option>
+                    <option value="Boogaloo">Boogaloo</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="fontSelectorGroup" style="display: none; margin-top: 24px;">
+                <label>English Font Style</label>
+                <select id="fontSelect">
+                    <option value="Cormorant Garamond">Cormorant Garamond (Default)</option>
+                    <option value="Great Vibes">Great Vibes</option>
+                    <option value="Allura">Allura</option>
+                    <option value="Alex Brush">Alex Brush</option>
+                    <option value="Parisienne">Parisienne</option>
+                    <option value="Dancing Script">Dancing Script</option>
+                    <option value="Sacramento">Sacramento</option>
+                    <option value="Tangerine">Tangerine</option>
+                    <option value="Playfair Display">Playfair Display</option>
+                    <option value="Cinzel">Cinzel</option>
+                    <option value="Libre Baskerville">Libre Baskerville</option>
+                    <option value="EB Garamond">EB Garamond</option>
+                    <option value="Bodoni Moda">Bodoni Moda</option>
+                    <option value="Prata">Prata</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Montserrat">Montserrat</option>
+                    <option value="Lora">Lora</option>
+                    <option value="Raleway">Raleway</option>
+                    <option value="Quicksand">Quicksand</option>
+                    <option value="Josefin Sans">Josefin Sans</option>
+                </select>
+            </div>
+
+            <div class="form-group" style="margin-top: 24px; border-top: 1px dashed #e0e0e0; padding-top: 24px;">
+                <label>Add Custom Text</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="customTextInput" placeholder="Type your text here..." style="flex: 1;" />
+                    <button class="btn-primary" id="addCustomTextBtn"
+                        style="padding: 10px 20px; font-size: 0.8rem; height: 100%; min-width: 80px; border-radius: 8px; border: none; cursor: pointer;">Add</button>
+                </div>
+            </div>
+
+            <div class="editor-actions">
+                <button class="btn-action btn-outline" id="resetBtn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                    </svg>
+                    Reset Text
+                </button>
+                <button class="btn-action btn-primary" id="downloadBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Download as PNG
+                </button>
+            </div>
+            </aside>
+    </main>
+
+    <script>
+        // Init Fabric Canvas - high res base size 1080x1920
+        const canvas = new fabric.Canvas('editorCanvas', {
+            preserveObjectStacking: true,
+            enableRetinaScaling: true, // Crisp on high-DPI/mobile screens
+            renderOnAddRemove: false // Fast bulk additions
+        });
+        canvas.setWidth(1080);
+        canvas.setHeight(1920);
+
+        // Custom Delete Control for Fabric.js
+        const deleteImg = document.createElement('img');
+        deleteImg.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZjAwMDAiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48bGluZSB4MT0iMTgiIHkxPSI2IiB4Mj0iNiIgeTI9IjE4Ij48L2xpbmU+PGxpbmUgeDE9IjYiIHkxPSI2IiB4Mj0iMTgiIHkyPSIxOCI+PC9saW5lPjwvc3ZnPg==';
+
+        fabric.Object.prototype.controls.deleteControl = new fabric.Control({
+            x: 0.5,
+            y: -0.5,
+            offsetY: -16,
+            cursorStyle: 'pointer',
+            mouseUpHandler: deleteObjectControl,
+            render: renderIcon,
+            cornerSize: 24
+        });
+
+        function deleteObjectControl(eventData, transform) {
+            const target = transform.target;
+            const canvas = target.canvas;
+
+            // If it's one of the base fabricObjs, remove reference too
+            const key = Object.keys(fabricObjs).find(k => fabricObjs[k] === target);
+            if (key) delete fabricObjs[key];
+
+            canvas.remove(target);
+            canvas.requestRenderAll();
+        }
+
+        function renderIcon(ctx, left, top, styleOverride, fabricObject) {
+            const size = this.cornerSize;
+            ctx.save();
+            ctx.translate(left, top);
+            ctx.rotate(fabric.util.degreesToRadians(fabricObject.angle));
+            ctx.drawImage(deleteImg, -size / 2, -size / 2, size, size);
+            ctx.restore();
+        }
+
+        // Load correct Image URL
+        const urlParams = new URLSearchParams(window.location.search);
+        let imgUrl = urlParams.get('img');
+        if (!imgUrl) {
+            imgUrl = 'https://res.cloudinary.com/dmd8tzi0q/image/upload/f_auto,q_auto/v1772894422/cards_rmck2n.jpg';
+        } else {
+            imgUrl = decodeURIComponent(imgUrl);
+        }
+
+        function getAverageBrightness(imgEl) {
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = 50;
+            tempCanvas.height = 50;
+            tempCtx.drawImage(imgEl, 0, 0, 50, 50);
+            let imgData;
+            try {
+                imgData = tempCtx.getImageData(0, 0, 50, 50);
+            } catch (e) { return 255; }
+            const data = imgData.data;
+            let r = 0, g = 0, b = 0;
+            for (let i = 0; i < data.length; i += 4) {
+                r += data[i]; g += data[i + 1]; b += data[i + 2];
+            }
+            const count = data.length / 4;
+            return ((r / count) * 299 + (g / count) * 587 + (b / count) * 114) / 1000;
+        }
+
+        let currentColor = '#8B0000'; // Default dark red
+
+        const getGradientStops = (name) => {
+            switch (name) {
+                case 'gold': return [{ offset: 0, color: '#C59348' }, { offset: 0.5, color: '#FDF5E6' }, { offset: 1, color: '#C59348' }];
+                case 'rosegold': return [{ offset: 0, color: '#B76E79' }, { offset: 0.5, color: '#E0BFB8' }, { offset: 1, color: '#B76E79' }];
+                case 'classic_silver': return [{ offset: 0, color: '#757F9A' }, { offset: 0.5, color: '#D7DDE8' }, { offset: 1, color: '#757F9A' }];
+                case 'copper': return [{ offset: 0, color: '#B87333' }, { offset: 0.5, color: '#E8B48D' }, { offset: 1, color: '#B87333' }];
+                case 'ruby': return [{ offset: 0, color: '#9b111e' }, { offset: 0.5, color: '#df6d77' }, { offset: 1, color: '#9b111e' }];
+                case 'platinum': return [{ offset: 0, color: '#E5E4E2' }, { offset: 0.5, color: '#FFFFFF' }, { offset: 1, color: '#E5E4E2' }];
+                case 'chrome': return [{ offset: 0, color: '#A8B1B8' }, { offset: 0.3, color: '#F5F7FA' }, { offset: 0.7, color: '#C1C8CE' }, { offset: 1, color: '#A8B1B8' }];
+                case 'pearl': return [{ offset: 0, color: '#CACFE3' }, { offset: 0.5, color: '#F3F5FA' }, { offset: 1, color: '#CACFE3' }];
+                case 'dark_steel': return [{ offset: 0, color: '#4B515D' }, { offset: 0.5, color: '#8E9299' }, { offset: 1, color: '#4B515D' }];
+                case 'sterling': return [{ offset: 0, color: '#B0B5B9' }, { offset: 0.5, color: '#DFE2E5' }, { offset: 1, color: '#B0B5B9' }];
+                default: return [{ offset: 0, color: '#C59348' }, { offset: 0.5, color: '#FDF5E6' }, { offset: 1, color: '#C59348' }];
+            }
+        };
+
+        const createTextGradient = (stops) => {
+            return new fabric.Gradient({
+                type: 'linear',
+                gradientUnits: 'percentage',
+                coords: { x1: 0, y1: 0, x2: 1, y2: 0 },
+                colorStops: stops
+            });
+        };
+
+        // Set Background Image with CORS
+        const canvasLoadingOverlay = document.getElementById('canvasLoadingOverlay');
+        fabric.Image.fromURL(imgUrl, function (img) {
+            // Scale background to perfectly cover 1080x1920
+            const scaleFactorX = 1080 / img.width;
+            const scaleFactorY = 1920 / img.height;
+            const sf = Math.max(scaleFactorX, scaleFactorY);
+
+            img.set({
+                originX: 'center',
+                originY: 'center',
+                left: 540,
+                top: 960,
+                scaleX: sf,
+                scaleY: sf,
+                selectable: false
+            });
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas));
+
+            const brightness = getAverageBrightness(img.getElement());
+            if (brightness < 130) {
+                currentColor = '#FFFFFF'; // White for dark backgrounds
+                if (fabricObjs.amp) fabricObjs.amp.set('fill', '#FFD700'); // Gold amp
+            } else {
+                currentColor = '#8B0000'; // Dark red for light backgrounds
+            }
+
+            document.getElementById('colorInput').value = currentColor;
+            Object.values(fabricObjs).forEach(t => {
+                if (t === fabricObjs.groom || t === fabricObjs.bride) return; // Keep default premium gradient
+                if (t !== fabricObjs.amp) t.set('fill', currentColor);
+            });
+
+            // Hide loading overlay with a smooth fade
+            if (canvasLoadingOverlay) {
+                canvasLoadingOverlay.style.opacity = '0';
+                setTimeout(() => { canvasLoadingOverlay.style.display = 'none'; }, 420);
+            }
+
+            // Add Custom Watermark Overlay to cover Gemini logo
+            fabric.Image.fromURL('logo2.png', (wmImg) => {
+                wmImg.set({
+                    originX: 'right',
+                    originY: 'bottom',
+                    left: 1065,
+                    top: 1885,
+                    scaleX: 0.16,
+                    scaleY: 0.16,
+                    selectable: false,
+                    evented: false,
+                    hoverCursor: 'default',
+                    opacity: 1.0
+                });
+                canvas.add(wmImg);
+                canvas.bringToFront(wmImg);
+                canvas.renderAll();
+            });
+
+            canvas.renderAll();
+        }, { crossOrigin: 'anonymous' });
+
+        const styleId = urlParams.get('style');
+
+        // Default Data
+        const langData = {
+            te: {
+                groom: "à°°à°¾à°¹à±à°²à±",
+                bride: "à°¸à±€à°¤",
+                date: "à°¤à±‡à°¦à±€ : 12 à°¡à°¿à°¸à±†à°‚à°¬à°°à± 2026",
+                time: "à°¸à°®à°¯à°‚ : à°‰à°¦à°¯à°‚ 10:30",
+                venue: "à°¸à±à°¥à°²à°‚ : à°¶à±à°°à±€ à°²à°•à±à°·à±à°®à±€ à°•à°¨à±à°µà±†à°¨à±à°·à°¨à± à°¹à°¾à°²à±, à°µà°¿à°œà°¯à°µà°¾à°¡",
+                message: "à°µà°¿à°µà°¾à°¹ à°®à°¹à±‹à°¤à±à°¸à°µà°¾à°¨à°¿à°•à°¿\nà°®à±€à°°à± à°•à±à°Ÿà±à°‚à°¬ à°¸à°®à±‡à°¤à°‚à°—à°¾ à°µà°¿à°šà±à°šà±‡à°¸à°¿\nà°µà°§à±‚à°µà°°à±à°²à°¨à± à°†à°¶à±€à°°à±à°µà°¦à°¿à°‚à°šà°—à°²à°°à°¨à°¿\nà°®à°¨à°¸à°¾à°°à°¾ à°†à°¹à±à°µà°¾à°¨à°¿à°¸à±à°¤à±à°¨à±à°¨à°¾à°®à±",
+                header: "à°¶à±à°°à±€à°°à°¸à±à°¤à± à°¶à±à°­à°®à°¸à±à°¤à±\n\nà°®à°¾ à°ªà±à°°à°¿à°¯à°®à±ˆà°¨",
+                fontPref: 'Noto Serif Telugu'
+            },
+            en: {
+                groom: "Ram",
+                bride: "Sita",
+                date: "Date : 12 December 2026",
+                time: "Time : 10:30 AM",
+                venue: "Venue : Sri Lakshmi Convention Hall, Vijayawada",
+                message: "Together with their families\ninvite you to share\nthe joy of their marriage\ncelebration",
+                header: "Joyfully Invited\n\nOur Beloved",
+                fontPref: 'Cormorant Garamond'
+            }
+        };
+
+        if (styleId === 'western') {
+            langData.en = {
+                groom: "Daniel Carter",
+                bride: "Emma Williams",
+                date: "Saturday, September 18th, 2027",
+                time: "At Half Past Four in the Afternoon",
+                venue: "St. Patrickâ€™s Cathedral\nRosewood Garden Venue\nLos Angeles, California",
+                message: "Joyfully Invite You\nTo Celebrate Their Wedding\n\nReception to Follow\nDress Code: Formal Attire\n\nRSVP Before August 25, 2027\n+1 234 567 8900",
+                header: "Together With Their Families",
+                fontPref: 'Playfair Display'
+            };
+        }
+
+        const category = urlParams.get('category');
+        const isBirthday = category === 'Birthday';
+        const isMilestone = isBirthday && styleId === 'milestone';
+
+        if (isBirthday) {
+            langData.en = {
+                header: "Hip Hip Hooray",
+                name: "Aarav",
+                age: "Turning 5",
+                message: "Join Us For A Fun Birthday Party",
+                date: "Saturday, 12 July 2027",
+                time: "5:00 PM",
+                venue: "Rainbow Kids Play Zone",
+                city: "Hyderabad",
+                footer: "Dinner & Cake Cutting To Follow",
+                fontPref: 'Poppins'
+            };
+            // For birthday, we'll use English as default if not Telugu
+            langData.te = JSON.parse(JSON.stringify(langData.en)); // Fallback or implement Telugu later
+        }
+
+        let currentLang = (styleId === 'western' || isBirthday) ? 'en' : 'te';
+        let defaultTexts = langData[currentLang];
+
+        const staticTexts = {
+            amp: styleId === 'western' ? "&" : "â™¥"
+        };
+
+        const baseSizes = isBirthday ? {
+            header: 48, name: 80, age: 40, message: 34, date: 36, time: 36, venue: 32, city: 32, footer: 30
+        } : {
+            header: 32, groom: 76, amp: 50, bride: 76, message: 32, date: 36, time: 36, venue: 34
+        };
+
+        let fabricObjs = {};
+
+        function createTextObjects() {
+            // All templates now start with a blank canvas for full custom text control
+            return;
+        }
+
+        createTextObjects();
+
+        // -------------------------
+        // Event Listeners for UI
+        // -------------------------
+
+        // Inputs
+        let inputs = ['bride', 'groom', 'date', 'time', 'venue', 'message'];
+        if (isBirthday) {
+            inputs = ['header', 'name', 'age', 'date', 'time', 'venue', 'city', 'message', 'footer'];
+            document.getElementById('weddingFields').style.display = 'none';
+            document.getElementById('birthdayFields').style.display = 'block';
+            document.getElementById('birthdayExtraFields').style.display = 'block';
+            document.getElementById('birthdayFooterField').style.display = 'block';
+            document.getElementById('dateLabel').textContent = 'Birthday Date';
+        }
+
+        function fillInputs() {
+            // Globally hide pre-filled forms as requested
+            document.getElementById('dynamicFormContainer').style.display = 'none';
+
+            // Ensure correct font selector is shown based on category
+            if (isBirthday) {
+                document.getElementById('birthdayFontSelectorGroup').style.display = 'block';
+                document.getElementById('fontSelectorGroup').style.display = 'none';
+                document.getElementById('teluguFontSelectorGroup').style.display = 'none';
+                document.getElementById('langToggle').checked = true;
+            } else if (styleId === 'western') {
+                document.getElementById('fontSelectorGroup').style.display = 'block';
+                document.getElementById('birthdayFontSelectorGroup').style.display = 'none';
+                document.getElementById('teluguFontSelectorGroup').style.display = 'none';
+                document.getElementById('langToggle').checked = true;
+            } else {
+                // Default to Telugu for Indian/Telangana styles
+                document.getElementById('teluguFontSelectorGroup').style.display = 'block';
+                document.getElementById('fontSelectorGroup').style.display = 'none';
+                document.getElementById('birthdayFontSelectorGroup').style.display = 'none';
+                document.getElementById('langToggle').checked = false;
+            }
+        }
+        fillInputs();
+
+        // Language Toggle
+        document.getElementById('langToggle').addEventListener('change', (e) => {
+            currentLang = e.target.checked ? 'en' : 'te';
+            defaultTexts = langData[currentLang];
+
+            const isEng = currentLang === 'en';
+            document.getElementById('langTeLabel').style.color = !isEng ? 'var(--red)' : '#666';
+            document.getElementById('langEnLabel').style.color = isEng ? 'var(--red)' : '#666';
+
+            // Show/Hide Font Selectors
+            if (isEng) {
+                if (isBirthday) {
+                    document.getElementById('birthdayFontSelectorGroup').style.display = 'block';
+                    document.getElementById('fontSelectorGroup').style.display = 'none';
+                } else {
+                    document.getElementById('fontSelectorGroup').style.display = 'block';
+                    document.getElementById('birthdayFontSelectorGroup').style.display = 'none';
+                }
+                document.getElementById('teluguFontSelectorGroup').style.display = 'none';
+            } else {
+                document.getElementById('fontSelectorGroup').style.display = 'none';
+                document.getElementById('birthdayFontSelectorGroup').style.display = 'none';
+                document.getElementById('teluguFontSelectorGroup').style.display = 'block';
+            }
+
+            // Apply fonts asynchronously
+            let appliedFont = defaultTexts.fontPref;
+            if (isEng) {
+                if (isBirthday) {
+                    appliedFont = document.getElementById('birthdayFontSelect').value || defaultTexts.fontPref;
+                } else {
+                    appliedFont = document.getElementById('fontSelect').value || defaultTexts.fontPref;
+                }
+            } else {
+                appliedFont = document.getElementById('teluguFontSelect').value || defaultTexts.fontPref;
+            }
+
+            const applyTranslations = () => {
+                fabricObjs.header?.set({ text: defaultTexts.header, fontFamily: appliedFont });
+                fabricObjs.message?.set({ text: defaultTexts.message, fontFamily: appliedFont });
+
+                inputs.forEach(id => {
+                    const newText = defaultTexts[id];
+                    const el = document.getElementById(id + 'Input');
+                    if (el) el.value = newText;
+                    fabricObjs[id]?.set({ text: newText, fontFamily: appliedFont });
+                });
+                canvas.requestRenderAll();
+            };
+
+            document.fonts.load(`16px "${appliedFont}"`).then(() => {
+                applyTranslations();
+            }).catch(() => {
+                applyTranslations(); // fallback if font load fails
+            });
+        });
+
+        // Font Dropdown Change
+        document.getElementById('fontSelect').addEventListener('change', (e) => {
+            if (currentLang !== 'en') return;
+            const chosenFont = e.target.value;
+
+            document.fonts.load(`16px "${chosenFont}"`).then(() => {
+                const activeObj = canvas.getActiveObject();
+                if (activeObj && activeObj.type === 'text') {
+                    activeObj.set({ fontFamily: chosenFont });
+                } else {
+                    // Fallback to all if nothing selected
+                    fabricObjs.header?.set({ fontFamily: chosenFont });
+                    fabricObjs.message?.set({ fontFamily: chosenFont });
+                    inputs.forEach(id => {
+                        fabricObjs[id]?.set({ fontFamily: chosenFont });
+                    });
+                }
+                canvas.requestRenderAll();
+            });
+        });
+
+        // Birthday Font Dropdown Change
+        document.getElementById('birthdayFontSelect').addEventListener('change', (e) => {
+            if (currentLang !== 'en' || !isBirthday) return;
+            const chosenFont = e.target.value;
+
+            document.fonts.load(`16px "${chosenFont}"`).then(() => {
+                const activeObj = canvas.getActiveObject();
+                if (activeObj && activeObj.type === 'text') {
+                    activeObj.set({ fontFamily: chosenFont });
+                } else {
+                    fabricObjs.header?.set({ fontFamily: chosenFont });
+                    fabricObjs.message?.set({ fontFamily: chosenFont });
+                    inputs.forEach(id => {
+                        if (fabricObjs[id]) fabricObjs[id].set({ fontFamily: chosenFont });
+                    });
+                }
+                canvas.requestRenderAll();
+            });
+        });
+
+        // Telugu Font Dropdown Change
+        document.getElementById('teluguFontSelect').addEventListener('change', (e) => {
+            if (currentLang !== 'te') return;
+            let chosenFont = e.target.value;
+            let weight = 'normal';
+
+            if (chosenFont.endsWith(' Bold')) {
+                chosenFont = chosenFont.replace(' Bold', '');
+                weight = 'bold';
+            }
+
+            document.fonts.load(`${weight} 16px "${chosenFont}"`).then(() => {
+                const activeObj = canvas.getActiveObject();
+                if (activeObj && activeObj.type === 'text') {
+                    activeObj.set({ fontFamily: chosenFont, fontWeight: weight });
+                } else {
+                    fabricObjs.header?.set({ fontFamily: chosenFont, fontWeight: weight });
+                    fabricObjs.message?.set({ fontFamily: chosenFont, fontWeight: weight });
+                    inputs.forEach(id => {
+                        fabricObjs[id]?.set({ fontFamily: chosenFont, fontWeight: weight });
+                    });
+                }
+                canvas.requestRenderAll();
+            });
+        });
+
+        function setupInputListeners() {
+            inputs.forEach(id => {
+                const el = document.getElementById(id + 'Input');
+                if (el) {
+                    el.addEventListener('input', (e) => {
+                        if (fabricObjs[id]) {
+                            fabricObjs[id].set('text', e.target.value);
+                            canvas.renderAll();
+                        }
+                    });
+                }
+            });
+        }
+        setupInputListeners();
+
+        // Styling Controls
+        document.getElementById('paletteBtn').addEventListener('click', () => {
+            document.getElementById('colorInput').click();
+        });
+
+        document.getElementById('colorInput').addEventListener('input', (e) => applySolidColor(e.target.value));
+
+        function applySolidColor(newC) {
+            const activeObj = canvas.getActiveObject();
+            if (activeObj && activeObj.type === 'text') {
+                activeObj.set('fill', newC);
+            } else {
+                Object.values(fabricObjs).forEach(t => {
+                    if (t !== fabricObjs.amp) t.set('fill', newC);
+                });
+            }
+            canvas.renderAll();
+        }
+
+        document.querySelectorAll('.grad-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const gradName = e.target.getAttribute('data-grad');
+                const stops = getGradientStops(gradName);
+
+                const activeObj = canvas.getActiveObject();
+                const applyGrad = (obj) => {
+                    if (obj.type !== 'text') return;
+                    obj.set('fill', createTextGradient(stops));
+                };
+
+                if (activeObj) {
+                    applyGrad(activeObj);
+                } else {
+                    Object.values(fabricObjs).forEach(t => {
+                        if (t !== fabricObjs.amp) applyGrad(t);
+                    });
+                }
+                canvas.requestRenderAll();
+            });
+        });
+
+        // Sync UI on canvas selection
+        canvas.on('selection:created', (e) => syncUI(e.selected[0]));
+        canvas.on('selection:updated', (e) => syncUI(e.selected[0]));
+
+        function syncUI(obj) {
+            if (!obj || obj.type !== 'text') return;
+            if (typeof obj.fill === 'string') {
+                document.getElementById('colorInput').value = obj.fill;
+            }
+            if (currentLang === 'en') {
+                const fSel = isBirthday ? document.getElementById('birthdayFontSelect') : document.getElementById('fontSelect');
+                if (fSel && [...fSel.options].some(o => o.value === obj.fontFamily)) {
+                    fSel.value = obj.fontFamily;
+                }
+            } else {
+                const fSel = document.getElementById('teluguFontSelect');
+                let searchFont = obj.fontFamily;
+                if (obj.fontWeight === 'bold') {
+                    // Try to find the bold version in the list
+                    const boldVersion = searchFont + ' Bold';
+                    if ([...fSel.options].some(o => o.value === boldVersion)) {
+                        searchFont = boldVersion;
+                    }
+                }
+                if ([...fSel.options].some(o => o.value === searchFont)) {
+                    fSel.value = searchFont;
+                }
+            }
+
+            // Sync alignments
+            document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+            if (obj.textAlign === 'left') document.getElementById('alignLeftBtn').classList.add('active');
+            else if (obj.textAlign === 'right') document.getElementById('alignRightBtn').classList.add('active');
+            else document.getElementById('alignCenterBtn').classList.add('active');
+
+            if (obj.fontWeight === 'bold') document.getElementById('boldBtn').classList.add('active');
+            if (obj.fontStyle === 'italic') document.getElementById('italicBtn').classList.add('active');
+
+            document.getElementById('spacingSlider').value = obj.charSpacing || 0;
+            document.getElementById('lineHeightSlider').value = obj.lineHeight || 1.6;
+            // Infer font size multiplier roughly based on base sizes if desired, 
+            // but we'll reset slider to 1 to signify new relative action on selection.
+            document.getElementById('sizeSlider').value = 1;
+        }
+
+        ['alignLeftBtn', 'alignCenterBtn', 'alignRightBtn'].forEach(btnId => {
+            document.getElementById(btnId).addEventListener('click', () => {
+                const activeObj = canvas.getActiveObject();
+                // Map ID to alignment string
+                const alignMap = { 'alignLeftBtn': 'left', 'alignCenterBtn': 'center', 'alignRightBtn': 'right' };
+                const align = alignMap[btnId];
+
+                if (activeObj && activeObj.type === 'text') {
+                    activeObj.set('textAlign', align);
+                } else {
+                    Object.values(fabricObjs).forEach(t => t.set('textAlign', align));
+                }
+                canvas.requestRenderAll();
+                syncUI(activeObj || fabricObjs.message);
+            });
+        });
+
+        document.getElementById('boldBtn').addEventListener('click', (e) => {
+            const activeObj = canvas.getActiveObject();
+            const toggleBold = (obj) => {
+                if (obj.type !== 'text') return;
+                obj.set('fontWeight', obj.fontWeight === 'bold' ? 'normal' : 'bold');
+            };
+            if (activeObj) toggleBold(activeObj);
+            else Object.values(fabricObjs).forEach(toggleBold);
+            canvas.requestRenderAll();
+            syncUI(activeObj);
+        });
+
+        document.getElementById('italicBtn').addEventListener('click', (e) => {
+            const activeObj = canvas.getActiveObject();
+            const toggleItalic = (obj) => {
+                if (obj.type !== 'text') return;
+                obj.set('fontStyle', obj.fontStyle === 'italic' ? 'normal' : 'italic');
+            };
+            if (activeObj) toggleItalic(activeObj);
+            else Object.values(fabricObjs).forEach(toggleItalic);
+            canvas.requestRenderAll();
+            syncUI(activeObj);
+        });
+
+        document.getElementById('sizeSlider').addEventListener('input', (e) => {
+            const mult = parseFloat(e.target.value);
+            const activeObj = canvas.getActiveObject();
+
+            if (activeObj && activeObj.type === 'text') {
+                // If single selection, we can't perfectly rely on base sizes easily. 
+                // We will scale relative to current size, bounded slightly safely.
+                // Resetting multiplier logic on selection helps.
+                // A better approach for individual scale is via scaleX/Y directly or native text size.
+                // We'll natively adjust font size for active based on its original config in baseSizes if able:
+                const objKey = Object.keys(fabricObjs).find(k => fabricObjs[k] === activeObj) || 'message';
+                activeObj.set('fontSize', (baseSizes[objKey] || 32) * mult);
+                activeObj.setCoords();
+            } else {
+                Object.keys(fabricObjs).forEach(k => {
+                    fabricObjs[k].set('fontSize', baseSizes[k] * mult);
+                    fabricObjs[k].setCoords();
+                });
+            }
+            canvas.requestRenderAll();
+        });
+
+        document.getElementById('spacingSlider').addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            const activeObj = canvas.getActiveObject();
+            if (activeObj && activeObj.type === 'text') {
+                activeObj.set('charSpacing', val);
+            } else {
+                Object.values(fabricObjs).forEach(t => t.set('charSpacing', val));
+            }
+            canvas.requestRenderAll();
+        });
+
+        document.getElementById('lineHeightSlider').addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            const activeObj = canvas.getActiveObject();
+            if (activeObj && activeObj.type === 'text') {
+                activeObj.set('lineHeight', val);
+            } else {
+                Object.values(fabricObjs).forEach(t => t.set('lineHeight', val));
+            }
+            canvas.requestRenderAll();
+        });
+
+        // Actions
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            // Simple global reset: clear all custom text objects
+            canvas.getObjects('text').forEach(obj => canvas.remove(obj));
+            fabricObjs = {};
+
+            document.getElementById('colorInput').value = currentColor || '#8B0000';
+            document.getElementById('sizeSlider').value = 1;
+            document.getElementById('spacingSlider').value = 0;
+            document.getElementById('lineHeightSlider').value = 1.6;
+
+            canvas.requestRenderAll();
+        });
+
+        // Delete Logic
+        const deleteSelected = () => {
+            const activeObjects = canvas.getActiveObjects();
+            if (!activeObjects.length) return;
+
+            activeObjects.forEach(obj => {
+                // If it's one of the base fabricObjs, remove reference too
+                const key = Object.keys(fabricObjs).find(k => fabricObjs[k] === obj);
+                if (key) delete fabricObjs[key];
+                canvas.remove(obj);
+            });
+            canvas.discardActiveObject();
+            canvas.requestRenderAll();
+        };
+
+        // document.getElementById('deleteBtn').remove(); // Already removed from HTML
+
+        window.addEventListener('keydown', (e) => {
+            // Only delete if backspace/delete pressed and NOT typing in an input/textarea
+            if ((e.key === 'Delete' || e.key === 'Backspace') &&
+                !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+                deleteSelected();
+            }
+        });
+
+        // Add Custom Text
+        document.getElementById('addCustomTextBtn').addEventListener('click', () => {
+            const input = document.getElementById('customTextInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const fontPref = currentLang === 'en' ?
+                (document.getElementById('fontSelect').value || langData.en.fontPref) :
+                (document.getElementById('teluguFontSelect').value || langData.te.fontPref);
+
+            const newText = new fabric.Text(text, {
+                left: 540,
+                top: 960,
+                fontSize: 40,
+                originX: 'center',
+                originY: 'center',
+                textAlign: 'center',
+                fontFamily: fontPref,
+                fill: currentColor,
+                lockScalingX: false,
+                lockScalingY: false,
+                transparentCorners: false,
+                cornerColor: 'var(--red)',
+                cornerStyle: 'circle',
+                objectCaching: true, // Prevents lag during dragging
+                statefullCache: true // Optimizes scaling performance
+            });
+
+            canvas.add(newText);
+            canvas.setActiveObject(newText);
+            canvas.requestRenderAll();
+            input.value = '';
+        });
+
+        // Preload Fonts Strategy
+        function preloadFonts() {
+            const preloader = document.getElementById('fontPreloader');
+            const allFonts = [];
+            document.querySelectorAll('select option').forEach(opt => {
+                const font = opt.value;
+                if (font && !allFonts.includes(font)) allFonts.push(font);
+            });
+
+            allFonts.forEach(font => {
+                const span = document.createElement('span');
+                span.style.fontFamily = font;
+                span.textContent = 'preload';
+                preloader.appendChild(span);
+            });
+        }
+        window.addEventListener('load', preloadFonts);
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const btn = document.getElementById('downloadBtn');
+            const ogText = btn.innerHTML;
+            btn.innerHTML = 'Generating...';
+
+            setTimeout(() => {
+                // Generates high quality 1080x1920 PNG out of canvas
+                const dataUrl = canvas.toDataURL({
+                    format: 'png',
+                    multiplier: 1, // original canvas size is large enough
+                    quality: 1
+                });
+
+                const link = document.createElement('a');
+                link.download = 'CardsDiary_Custom_Invitation.png';
+                link.href = dataUrl;
+                link.click();
+
+                btn.innerHTML = 'Downloaded!';
+                setTimeout(() => { btn.innerHTML = ogText; }, 3000);
+            }, 100);
+        });
+
+        // ── Memory cleanup: dispose Fabric canvas on page leave ──────────────
+        // This prevents GPU memory leaks when users navigate back to the gallery
+        window.addEventListener('pagehide', () => {
+            try { canvas.dispose(); } catch (_) { }
+        });
+
+        // Register Service Worker for offline caching + instant repeat loads
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => { });
+        }
+    </script>
+</body>
+
+</html>
