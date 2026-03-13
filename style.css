@@ -930,7 +930,7 @@ strong {
 
 .footer-top {
   display: grid;
-  grid-template-columns: 1.8fr repeat(3, 1fr);
+  grid-template-columns: 1.5fr repeat(4, 1fr);
   gap: 48px;
   padding-bottom: 56px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);

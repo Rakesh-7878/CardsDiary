@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CardsDiary - Premium Digital Invitation Cards</title>
+    <meta name="description" content="Create beautiful wedding, birthday, baby shower and anniversary invitation cards online. Customize and download instantly.">
+    <meta name="keywords" content="wedding invitation card maker, birthday invitation cards, baby shower cards, digital invitation cards">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .info-page-hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #fff5f9 0%, var(--pink-light) 50%, var(--pink) 100%);
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .info-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px 80px;
+        }
+
+        .info-content h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--red);
+            margin-bottom: 16px;
+            margin-top: 40px;
+        }
+
+        .info-content p,
+        .info-content li {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .info-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-content ul li {
+            position: relative;
+            padding-left: 28px;
+            margin-bottom: 14px;
+        }
+
+        .info-content ul li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: var(--red);
+            font-size: 0.8rem;
+        }
+
+        .info-content .last-updated {
+            font-size: 0.85rem;
+            color: #999;
+            text-align: center;
+            margin-top: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-brand">
+            <a class="nav-brand-link" href="index.html" aria-label="Cards Diary">
+                <span class="logo-script">Cards Diary</span>
+                <span class="logo-tagline">Est. 2026</span>
+                <span class="logo-tagline">By Rakesh Thangella</span>
+            </a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#collection">Collection</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <header class="info-page-hero">
+        <div class="container fade-up visible">
+            <span class="section-label">Important Notice</span>
+            <h1 class="hero-brand-title" style="font-size: clamp(2.5rem, 7vw, 5rem);">Disclaimer</h1>
+        </div>
+    </header>
+
+    <!-- ========== CONTENT ========== -->
+    <section class="info-content">
+        <p>The information provided on <strong>CardsDiary</strong> is for general creative and personal use. Please read
+            the following disclaimer carefully before using our platform.</p>
+
+        <h2>Creative Templates</h2>
+        <ul>
+            <li>CardsDiary provides invitation templates for creative purposes only. Our templates are designed to help
+                you create beautiful digital invitations for weddings, birthdays, anniversaries, baby showers, and other
+                celebrations.</li>
+            <li>The templates and design assets are intended to serve as a starting point for your creative expression
+                and personalization.</li>
+        </ul>
+
+        <h2>User Responsibility</h2>
+        <ul>
+            <li>The platform is <strong>not responsible</strong> for how users choose to use the templates or the content
+                they create with them.</li>
+            <li>Users are solely responsible for the content they place in their invitation cards, including text,
+                images, names, dates, and any other information.</li>
+            <li>Users must ensure that their invitations do not contain any content that is misleading, defamatory,
+                unlawful, or infringes upon any third-party rights.</li>
+        </ul>
+
+        <h2>No Warranties</h2>
+        <p>CardsDiary makes no warranties or guarantees regarding the accuracy, completeness, or suitability of the
+            templates for any particular purpose. The platform is provided "as is" without warranty of any kind, either
+            express or implied.</p>
+
+        <h2>External Links</h2>
+        <p>Our website may contain links to external websites. CardsDiary is not responsible for the content, privacy
+            policies, or practices of any third-party websites.</p>
+
+        <h2>Contact</h2>
+        <p>If you have any questions or concerns about this disclaimer, please <a href="contact-us.html"
+                style="color: var(--red); text-decoration: underline;">contact us</a>.</p>
+
+        <p class="last-updated">Last updated: March 2026</p>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo-container">
+                        <img src="logo2.png" alt="Cards Diary Logo" class="footer-logo-img" loading="lazy" />
+                    </div>
+                    <p class="footer-tagline">Where Love Becomes an Invitation</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:hello@cardsdiary.com">hello@cardsdiary.com</a></li>
+                        <li><a href="https://www.instagram.com/cardsdiary">Instagram</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029VbChhEWL7UVbH2Jw502R">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" style="flex-direction: column; gap: 10px;">
+                <p>&copy; 2026 CardsDiary. All rights reserved.</p>
+                <p>Founder &amp; CEO: Rakesh Thangella | Developed by <a href="https://shark-techlabs.netlify.app/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 500;">Shark-TechLabs</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+            });
+        }
+    </script>
+</body>
+
+</html>

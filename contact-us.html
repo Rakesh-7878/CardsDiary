@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CardsDiary - Premium Digital Invitation Cards</title>
+    <meta name="description" content="Create beautiful wedding, birthday, baby shower and anniversary invitation cards online. Customize and download instantly.">
+    <meta name="keywords" content="wedding invitation card maker, birthday invitation cards, baby shower cards, digital invitation cards">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500&family=Poppins:wght@600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .info-page-hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(160deg, #fff5f9 0%, var(--pink-light) 50%, var(--pink) 100%);
+            padding-top: 100px;
+            text-align: center;
+        }
+
+        .contact-section {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px 80px;
+        }
+
+        .contact-section p.support-msg {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #555;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .contact-form {
+            background: #fff;
+            border: 1px solid rgba(139, 0, 0, 0.08);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 12px 40px rgba(139, 0, 0, 0.06);
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 24px;
+        }
+
+        .contact-form label {
+            display: block;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #444;
+            margin-bottom: 8px;
+        }
+
+        .contact-form input[type="text"],
+        .contact-form input[type="email"],
+        .contact-form textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1.5px solid #eaeaea;
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            background: #fafafa;
+            color: #333;
+            transition: 0.3s;
+            box-sizing: border-box;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--pink);
+            background: #fff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(248, 200, 220, 0.3);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        .contact-form .btn-send {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: var(--red);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 24px rgba(139, 0, 0, 0.2);
+        }
+
+        .contact-form .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(139, 0, 0, 0.3);
+        }
+
+        .contact-form .success-msg {
+            display: none;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--red);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar scrolled" id="navbar">
+        <div class="nav-brand">
+            <a class="nav-brand-link" href="index.html" aria-label="Cards Diary">
+                <span class="logo-script">Cards Diary</span>
+                <span class="logo-tagline">Est. 2026</span>
+                <span class="logo-tagline">By Rakesh Thangella</span>
+            </a>
+        </div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#collection">Collection</a></li>
+            <li><a href="index.html#why-us">Why Us</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <header class="info-page-hero">
+        <div class="container fade-up visible">
+            <span class="section-label">Get In Touch</span>
+            <h1 class="hero-brand-title" style="font-size: clamp(2.5rem, 7vw, 5rem);">Contact Us</h1>
+        </div>
+    </header>
+
+    <!-- ========== CONTACT FORM ========== -->
+    <section class="contact-section">
+        <p class="support-msg">If you have questions, feedback, or suggestions about CardsDiary, feel free to contact
+            us. We'd love to hear from you!</p>
+
+        <div class="contact-form" id="contactForm">
+            <div class="form-group">
+                <label for="contactName">Your Name</label>
+                <input type="text" id="contactName" placeholder="Enter your name" required />
+            </div>
+            <div class="form-group">
+                <label for="contactEmail">Email Address</label>
+                <input type="email" id="contactEmail" placeholder="Enter your email" required />
+            </div>
+            <div class="form-group">
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" placeholder="Write your message here..."></textarea>
+            </div>
+            <button class="btn-send" id="sendBtn" type="button">Send Message</button>
+            <p class="success-msg" id="successMsg">Thank you! Your message has been sent successfully. ✨</p>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo-container">
+                        <img src="logo2.png" alt="Cards Diary Logo" class="footer-logo-img" loading="lazy" />
+                    </div>
+                    <p class="footer-tagline">Where Love Becomes an Invitation</p>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="contact-us.html">Contact Us</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-conditions.html">Terms &amp; Conditions</a></li>
+                        <li><a href="disclaimer.html">Disclaimer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-group">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="mailto:hello@cardsdiary.com">hello@cardsdiary.com</a></li>
+                        <li><a href="https://www.instagram.com/cardsdiary">Instagram</a></li>
+                        <li><a href="https://whatsapp.com/channel/0029VbChhEWL7UVbH2Jw502R">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom" style="flex-direction: column; gap: 10px;">
+                <p>&copy; 2026 CardsDiary. All rights reserved.</p>
+                <p>Founder &amp; CEO: Rakesh Thangella | Developed by <a href="https://shark-techlabs.netlify.app/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 500;">Shark-TechLabs</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Nav Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navLinks.classList.toggle('open');
+            });
+        }
+
+        // Simple send button interaction
+        document.getElementById('sendBtn').addEventListener('click', () => {
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+
+            if (name && email && message) {
+                document.getElementById('successMsg').style.display = 'block';
+                document.getElementById('contactName').value = '';
+                document.getElementById('contactEmail').value = '';
+                document.getElementById('contactMessage').value = '';
+            } else {
+                alert('Please fill in all fields before sending.');
+            }
+        });
+    </script>
+</body>
+
+</html>
