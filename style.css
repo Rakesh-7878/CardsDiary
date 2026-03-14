@@ -1365,23 +1365,12 @@ strong {
 }
 
 /* ---------- APP DOWNLOAD ---------- */
-.download-app-btn {
-  background: var(--red);
-  color: var(--white);
-  padding: 14px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  font-family: var(--font-poppins);
-  display: inline-block;
-  margin-top: 15px;
-  margin-left: 15px;
-  transition: var(--transition);
-}
-.download-app-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
-  background: var(--red-mid);
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 .app-popup {
@@ -1464,10 +1453,9 @@ strong {
 }
 
 @media (max-width: 480px) {
-  .download-app-btn {
-    margin-left: 0;
-    display: block;
-    width: fit-content;
-    margin: 15px auto 0;
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
   }
 }
