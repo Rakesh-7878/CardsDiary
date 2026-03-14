@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#ff4d6d">
 
     <meta name="google-site-verification" content="vJ3S4B3LXCpG79Ugh-sriOX4c6K94EUOT_40G2I4GRs" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -416,6 +418,12 @@
                     .catch(() => { }); // Fail silently — not critical
             });
         }
+
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+
     </script>
 </body>
 

@@ -1,0 +1,22 @@
+{
+    "name": "CardsDiary-Premium Invitation Cards",
+    "short_name": "CardsDiary",
+    "description": "Create beautiful wedding, birthday, anniversary and baby shower invitation cards instantly with CardsDiary.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ff4d6d",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "watermark.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "logo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
