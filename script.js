@@ -434,4 +434,24 @@
     }
   });
 
+  /* ─────────────────────────────────────────
+     8. APP DOWNLOAD POPUP
+  ───────────────────────────────────────── */
+  setTimeout(function() {
+    if (!localStorage.getItem("appPopupShown")) {
+      const popup = document.getElementById("appPopup");
+      if (popup) {
+        popup.style.display = "flex";
+        localStorage.setItem("appPopupShown", "true");
+      }
+    }
+  }, 3000);
+
+  window.closePopup = function() {
+    const popup = document.getElementById("appPopup");
+    if (popup) {
+      popup.style.display = "none";
+    }
+  };
+
 })();

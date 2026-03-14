@@ -1363,3 +1363,111 @@ strong {
     display: none;
   }
 }
+
+/* ---------- APP DOWNLOAD ---------- */
+.download-app-btn {
+  background: var(--red);
+  color: var(--white);
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: var(--font-poppins);
+  display: inline-block;
+  margin-top: 15px;
+  margin-left: 15px;
+  transition: var(--transition);
+}
+.download-app-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  background: var(--red-mid);
+}
+
+.app-popup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+}
+
+.popup-box {
+  background: var(--white);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-hover);
+  animation: fadeUpPopup 0.4s var(--transition) forwards;
+}
+
+@keyframes fadeUpPopup {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.popup-box h3 {
+  color: var(--red);
+  margin-bottom: 12px;
+}
+
+.popup-box p {
+  color: var(--red);
+  opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.download-btn {
+  background: var(--red);
+  color: var(--white);
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-soft);
+}
+
+.later-btn {
+  background: transparent;
+  color: var(--red);
+  padding: 10px 20px;
+  border: 1.5px solid var(--red);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-poppins);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+.later-btn:hover {
+  background: var(--red-light);
+}
+
+@media (max-width: 480px) {
+  .download-app-btn {
+    margin-left: 0;
+    display: block;
+    width: fit-content;
+    margin: 15px auto 0;
+  }
+}
