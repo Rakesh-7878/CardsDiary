@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -953,13 +953,13 @@
         // Default Data
         const langData = {
             te: {
-                groom: "à°°à°¾à°¹à±à°²à±",
-                bride: "à°¸à±€à°¤",
-                date: "à°¤à±‡à°¦à±€ : 12 à°¡à°¿à°¸à±†à°‚à°¬à°°à± 2026",
-                time: "à°¸à°®à°¯à°‚ : à°‰à°¦à°¯à°‚ 10:30",
-                venue: "à°¸à±à°¥à°²à°‚ : à°¶à±à°°à±€ à°²à°•à±à°·à±à°®à±€ à°•à°¨à±à°µà±†à°¨à±à°·à°¨à± à°¹à°¾à°²à±, à°µà°¿à°œà°¯à°µà°¾à°¡",
-                message: "à°µà°¿à°µà°¾à°¹ à°®à°¹à±‹à°¤à±à°¸à°µà°¾à°¨à°¿à°•à°¿\nà°®à±€à°°à± à°•à±à°Ÿà±à°‚à°¬ à°¸à°®à±‡à°¤à°‚à°—à°¾ à°µà°¿à°šà±à°šà±‡à°¸à°¿\nà°µà°§à±‚à°µà°°à±à°²à°¨à± à°†à°¶à±€à°°à±à°µà°¦à°¿à°‚à°šà°—à°²à°°à°¨à°¿\nà°®à°¨à°¸à°¾à°°à°¾ à°†à°¹à±à°µà°¾à°¨à°¿à°¸à±à°¤à±à°¨à±à°¨à°¾à°®à±",
-                header: "à°¶à±à°°à±€à°°à°¸à±à°¤à± à°¶à±à°­à°®à°¸à±à°¤à±\n\nà°®à°¾ à°ªà±à°°à°¿à°¯à°®à±ˆà°¨",
+                groom: "రాహుల్",
+                bride: "సీత",
+                date: "తేదీ : 12 డిసెంబర్ 2026",
+                time: "సమయం : ఉదయం 10:30",
+                venue: "స్థలం : శ్రీ లక్ష్మీ కన్వెన్షన్ హాల్, విజయవాడ",
+                message: "వివాహ మహోత్సవానికి\nమీరు కుటుంబ సమేతంగా విచ్చేసి\nవధూవరులను ఆశీర్వదించగలరని\nమనసారా ఆహ్వానిస్తున్నాము",
+                header: "శ్రీరస్తు శుభమస్తు\n\nమా ప్రియమైన",
                 fontPref: 'Noto Serif Telugu'
             },
             en: {
@@ -1024,8 +1024,81 @@
         let fabricObjs = {};
 
         function createTextObjects() {
-            // All templates now start with a blank canvas for full custom text control
-            return;
+            // Only populate default text for Wedding category
+            if (category !== 'Wedding') return;
+
+            const font = defaultTexts.fontPref;
+            const goldGrad = createTextGradient(getGradientStops('gold'));
+
+            // Header
+            fabricObjs.header = new fabric.Text(defaultTexts.header || '', {
+                left: 540, top: 220, originX: 'center', originY: 'center',
+                fontSize: baseSizes.header, fontFamily: font, fill: currentColor,
+                textAlign: 'center', lineHeight: 1.4,
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Groom
+            fabricObjs.groom = new fabric.Text(defaultTexts.groom || '', {
+                left: 380, top: 700, originX: 'center', originY: 'center',
+                fontSize: baseSizes.groom, fontFamily: font, fill: goldGrad,
+                textAlign: 'center',
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Ampersand / Heart
+            fabricObjs.amp = new fabric.Text(staticTexts.amp, {
+                left: 540, top: 700, originX: 'center', originY: 'center',
+                fontSize: baseSizes.amp, fontFamily: font, fill: '#FFD700',
+                textAlign: 'center',
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Bride
+            fabricObjs.bride = new fabric.Text(defaultTexts.bride || '', {
+                left: 700, top: 700, originX: 'center', originY: 'center',
+                fontSize: baseSizes.bride, fontFamily: font, fill: goldGrad,
+                textAlign: 'center',
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Message
+            fabricObjs.message = new fabric.Text(defaultTexts.message || '', {
+                left: 540, top: 950, originX: 'center', originY: 'center',
+                fontSize: baseSizes.message, fontFamily: font, fill: currentColor,
+                textAlign: 'center', lineHeight: 1.6,
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Date
+            fabricObjs.date = new fabric.Text(defaultTexts.date || '', {
+                left: 540, top: 1150, originX: 'center', originY: 'center',
+                fontSize: baseSizes.date, fontFamily: font, fill: currentColor,
+                textAlign: 'center',
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Time
+            fabricObjs.time = new fabric.Text(defaultTexts.time || '', {
+                left: 540, top: 1220, originX: 'center', originY: 'center',
+                fontSize: baseSizes.time, fontFamily: font, fill: currentColor,
+                textAlign: 'center',
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            // Venue
+            fabricObjs.venue = new fabric.Text(defaultTexts.venue || '', {
+                left: 540, top: 1310, originX: 'center', originY: 'center',
+                fontSize: baseSizes.venue, fontFamily: font, fill: currentColor,
+                textAlign: 'center', lineHeight: 1.4,
+                transparentCorners: false, cornerColor: 'var(--red)', cornerStyle: 'circle'
+            });
+
+            [fabricObjs.header, fabricObjs.groom, fabricObjs.amp, fabricObjs.bride,
+             fabricObjs.message, fabricObjs.date, fabricObjs.time, fabricObjs.venue
+            ].forEach(obj => { if (obj) canvas.add(obj); });
+
+            canvas.requestRenderAll();
         }
 
         createTextObjects();
@@ -1046,8 +1119,17 @@
         }
 
         function fillInputs() {
-            // Globally hide pre-filled forms as requested
-            document.getElementById('dynamicFormContainer').style.display = 'none';
+            // Show form for Wedding, hide for all other categories
+            if (category === 'Wedding') {
+                document.getElementById('dynamicFormContainer').style.display = 'block';
+                // Pre-fill input fields with default wedding texts
+                inputs.forEach(id => {
+                    const el = document.getElementById(id + 'Input');
+                    if (el && defaultTexts[id] !== undefined) el.value = defaultTexts[id];
+                });
+            } else {
+                document.getElementById('dynamicFormContainer').style.display = 'none';
+            }
 
             // Ensure correct font selector is shown based on category
             if (isBirthday) {
