@@ -2,8 +2,8 @@
 // Caches all static assets on first load; serves from cache on repeat visits.
 // Cloudinary images are cached with a network-first strategy for freshness.
 
-const CACHE_NAME = 'cardsdiary-v2';
-const CLOUDINARY_CACHE = 'cardsdiary-images-v2';
+const CACHE_NAME = 'cardsdiary-v3';
+const CLOUDINARY_CACHE = 'cardsdiary-images-v3';
 
 // Static assets to cache immediately on SW install
 const STATIC_ASSETS = [
